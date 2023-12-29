@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Covert mkv to mp4 if needed. 
+for i in *.mkv; do
+    sudo ffmpeg -hide_banner -loglevel error -y -i "$i" -codec copy "${i%.*}.mp4"
+done
+
+# Copy all movies into index directory.
+cd "/storage/webservers/movies"
+
+for i in *.mp4; do
+    mv -u "$i" /storage/webserver/${i}
+done
+
+# Delete movie from directory
+sudo rm /storage/webserver/movies/${i}
+
+# Switch directories and run script to delimit spaces and characters out of names. 
+cd "/storage/webserver"
+sudo sh /storage/webserver/delimiter.sh 
+
+# Run scripts to add links to webpage. 
+sudo sh /storage/webserver/indextemp.sh
+
+
